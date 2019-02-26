@@ -41,8 +41,8 @@ int set_size(set_t *set) {
 void set_add(set_t *set, void *elem) {
 	if (!list_contains(set->list, elem)) {
 
-		list_addlast(set->list, elem);
-		list_sort(set->list);
+		list_addfirst(set->list, elem);
+		//list_sort(set->list);
 	}
 }
 
@@ -59,11 +59,11 @@ set_t *set_union(set_t *a, set_t *b) {
 
 	while(set_hasnext(itera)){
 		set_add(unionset, set_next(itera));
-		list_sort(unionset->list);
+		//list_sort(unionset->list);
 	}
 	while(set_hasnext(iterb)){
 		set_add(unionset, set_next(iterb));
-		list_sort(unionset->list);
+		//list_sort(unionset->list);
 	}
 	return unionset;
 }
@@ -77,7 +77,7 @@ set_t *set_intersection(set_t *a, set_t *b){
 		elem = set_next(itera);
 		if(set_contains(b, elem)){
 			set_add(intersectset, elem);
-			list_sort(intersectset->list);
+			//list_sort(intersectset->list);
 		}
 	}
 	
@@ -96,7 +96,7 @@ set_t *set_difference(set_t *a, set_t *b){
 		elem = set_next(itera);
 		if(!set_contains(b, elem)){
 			set_add(diffset, elem);
-			list_sort(diffset->list);
+			//list_sort(diffset->list);
 		}
 	}
 	set_destroyiter(itera);	
@@ -109,7 +109,7 @@ set_t *set_copy(set_t *set) {
 	set_t *copyset = set_create(getfunc(set->list));
 	while(set_hasnext(iter)){
 		set_add(copyset, set_next(iter));
-		list_sort(copyset->list);
+		//list_sort(copyset->list);
 	}
 	set_destroyiter(iter);
 	return copyset;
@@ -120,6 +120,7 @@ set_iter_t *set_createiter(set_t *set) {
 	if (iter == NULL) {
 		fatal_error("could not create iterator\n");
 	}
+	list_sort(set->list);
 	iter->list_iter = list_createiter(set->list);
 	return iter;
 }
